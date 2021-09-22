@@ -96,7 +96,7 @@ class TestPost:
     def test_get_all_posts_returns_status_code_200(self):
         query_graphql = '''
             {
-                allPosts {
+                getAllPosts {
                     title
                     body
                     authorId

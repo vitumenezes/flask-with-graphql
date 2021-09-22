@@ -10,7 +10,8 @@ The library Graphene was used to build it.
 ## Summary
 
 1. [What is the API?](#What-is-the-API?)
-2. [API](#API-Docs)
+2. [How to run the project](#How-to-run-the-project)
+3. [API Docs](#API-Docs)
 
 
 ## What is the API?
@@ -81,6 +82,92 @@ Now, run it:
 
 Access http://127.0.0.1:5000/graphql to see the interface to write and test **graphql** queries.
 
-<img src=".github/graphql-interface.png" width="80%"/>
+<img src=".github/graphql-interface.png" width="100%"/>
 
 ## API Docs
+
+As stated earlier, there are two base models in the API.
+
+### UserType
+Represents the User template to be saved in the database.
+
+Fields:
+
+**uuid**: ID!<br/>
+**username**: String<br/>
+**password**: String<br/>
+**posts**: [PostType]<br/>
+
+
+### PostType
+
+Represents the Post template to be saved in the database.
+
+**uuid**: ID!<br/>
+**title**: String<br/>
+**body**: String<br/>
+**authorId**: Int<br/>
+**author**: UserType<br/>
+
+The API offers Create, Update and Delete mutations for User and Post, that is, 6 mutations in total.
+
+There are also queries to fetch one or all rows from each model's database table (User and Post).
+
+
+
+### Queries
+
+#### getAllPosts: [PostType]
+```
+{
+  getAllPosts {
+    uuid
+    title
+    body
+    authorId
+    author
+  }
+}
+```
+
+
+
+Example of usage:
+```
+{
+  getAllPosts {
+    title
+    body
+    authorId
+  }
+}
+```
+Return:
+```
+{
+  "data": {
+    "getAllPosts": [
+      {
+        "title": "A title",
+        "body": "some content",
+        "authorId": 2
+      },
+      {
+        "title": "Another Title",
+        "body": "content",
+        "authorId": 2
+      },
+      {
+        "title": "title",
+        "body": "body",
+        "authorId": 5
+      },
+      {
+        "title": "Some Title",
+        "body": "body",
+        "authorId": 15
+      }
+    ]
+  }
+}
+```

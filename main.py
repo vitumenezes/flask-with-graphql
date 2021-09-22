@@ -55,7 +55,7 @@ class UserType(SQLAlchemyObjectType):
 
 class Query(graphene.ObjectType):
     # posts
-    all_posts = graphene.List(PostType)
+    get_all_posts = graphene.List(PostType)
     # get_post = graphene.Field(PostType, post_id=graphene.Int())
 
     # users
@@ -63,7 +63,7 @@ class Query(graphene.ObjectType):
     get_user = graphene.Field(UserType, user_id=graphene.Int())
 
     @staticmethod
-    def resolve_all_posts(self, info):
+    def resolve_get_all_posts(self, info):
         return db.session.query(Post).all()
 
     @staticmethod
