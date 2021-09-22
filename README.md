@@ -84,36 +84,53 @@ Access http://127.0.0.1:5000/graphql to see the interface to write and test **gr
 
 <img src=".github/graphql-interface.png" width="100%"/>
 
-## API Docs
+# API Docs
 
 As stated earlier, there are two base models in the API.
 
-### UserType
+## User
 Represents the User template to be saved in the database.
 
 Fields:
 
 **uuid**: ID!<br/>
+_The User identifier. Autofilled_
+
 **username**: String<br/>
+_The User username. Must be unique_
+
 **password**: String<br/>
+_The User password_
+
 **posts**: [PostType]<br/>
+_The User's posts_
 
 
-### PostType
-
+## Post
 Represents the Post template to be saved in the database.
 
+Fields:
+
 **uuid**: ID!<br/>
+_The Posti identifier. Autofilled_
+
 **title**: String<br/>
+_The Post Title_
+
 **body**: String<br/>
+_The Post body (content)_
+
 **authorId**: Int<br/>
+_The Post creator identifier_
+
 **author**: UserType<br/>
+_The user who created the post itself_
+
+---
 
 The API offers Create, Update and Delete mutations for User and Post, that is, 6 mutations in total.
 
 There are also queries to fetch one or all rows from each model's database table (User and Post).
-
-
 
 ### Queries
 
@@ -129,6 +146,14 @@ There are also queries to fetch one or all rows from each model's database table
   }
 }
 ```
+Returns all posts from the database.
+
+**Params**:<br/>
+not needed
+
+**Fields**:<br/>
+All fields from Post<br/>
+The field _**author**_ has all attributes of User.
 
 
 
@@ -141,33 +166,36 @@ Example of usage:
     authorId
   }
 }
+
+
 ```
-Return:
-```
+Example of return:
+```json
 {
   "data": {
     "getAllPosts": [
       {
-        "title": "A title",
-        "body": "some content",
-        "authorId": 2
-      },
-      {
-        "title": "Another Title",
+        "title": "Some title",
         "body": "content",
         "authorId": 2
       },
       {
-        "title": "title",
-        "body": "body",
-        "authorId": 5
+        "title": "Title",
+        "body": "Some Body",
+        "authorId": 7
       },
       {
-        "title": "Some Title",
+        "title": "title",
         "body": "body",
-        "authorId": 15
+        "authorId": 2
+      },
+      {
+        "title": "Nice Title",
+        "body": "Cooooteeeennnnt",
+        "authorId": 4
       }
     ]
   }
 }
 ```
+
