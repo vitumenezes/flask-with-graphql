@@ -15,10 +15,10 @@ The library Graphene was used to build it.
 4. [User](#User)
 5. [Post](#Post)
 6. [Queries](#Queries)
-   1. [getAllPosts](#getAllPosts:-[PostType])
-   2. [getAllUsers](#getAllUsers:-[UserType])
-   3. [getPost](#getPost:-[PostType])
-   4. [getUser](#getUser:-[UserType])
+   1. [getAllPosts](#getAllPosts)
+   2. [getAllUsers](#getAllUsers)
+   3. [getPost](#getPost)
+   4. [getUser](#getUser)
 7. [Mutations](#Mutations)
    1. [CreatePost](#CreatePost)
    2. [UpdatePost](#UpdatePost)
@@ -147,7 +147,7 @@ There are also queries to fetch one or all rows from each model's database table
 
 ## Queries
 
-### getAllPosts: [PostType]
+### getAllPosts
 ```
 {
   getAllPosts {
@@ -212,7 +212,7 @@ Example of return:
 }
 ```
 
-### getAllUsers: [PostType]
+### getAllUsers
 ```
 {
   getAllUsers {
@@ -281,9 +281,9 @@ Example of return:
 }
 ```
 
-### getPost: [PostType]
+### getPost
 
-### getUser: [UserType]
+### getUser
 ```
 {
   getAllUsers {
