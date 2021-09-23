@@ -12,6 +12,13 @@ The library Graphene was used to build it.
 1. [What is the API?](#What-is-the-API?)
 2. [How to run the project](#How-to-run-the-project)
 3. [API Docs](#API-Docs)
+   1. [User](#User)
+   2. [Post](#Post)
+   3. [Queries](#Queries)
+      1. [getAllPosts](#getAllPosts:-[PostType])
+      2. [getAllUsers](#getAllUsers:-[UserType])
+      3. [getPost](#getPost:-[PostType])
+      4. [getUser](#getUser:-[UserType])
 
 
 ## What is the API?
@@ -115,7 +122,7 @@ Fields:
 _The Posti identifier. Autofilled_
 
 **title**: String<br/>
-_The Post Title_
+_The Post title_
 
 **body**: String<br/>
 _The Post body (content)_
@@ -128,13 +135,12 @@ _The user who created the post itself_
 
 ---
 
-The API offers Create, Update and Delete mutations for User and Post, that is, 6 mutations in total.
-
+>The API offers Create, Update and Delete mutations for User and Post, that is, 6 mutations in total.
 There are also queries to fetch one or all rows from each model's database table (User and Post).
 
-### Queries
+## Queries
 
-#### getAllPosts: [PostType]
+### getAllPosts: [PostType]
 ```
 {
   getAllPosts {
@@ -148,12 +154,12 @@ There are also queries to fetch one or all rows from each model's database table
 ```
 Returns all posts from the database.
 
-**Params**:<br/>
+**PARAMS**:<br/>
 not needed
 
-**Fields**:<br/>
+**FIELDS**:<br/>
 All fields from Post<br/>
-The field _**author**_ has all attributes of User.
+The field _**author**_ has all fields of User.
 
 
 
@@ -195,6 +201,361 @@ Example of return:
         "authorId": 4
       }
     ]
+  }
+}
+```
+
+### getAllUsers: [PostType]
+```
+{
+  getAllUsers {
+    uuid
+    username
+    password
+    posts
+  }
+}
+```
+
+Returns all users from the database.
+
+**PARAMS**:<br/>
+_not needed_
+
+**FIELDS**:<br/>
+_All fields from User<br/>
+The field **posts** has all fields of Post._
+
+Example of usage:
+```
+{
+  getAllPosts {
+    username
+    posts {
+      title
+    }
+  }
+}
+
+```
+Example of return:
+```json
+{
+  "data": {
+    "getAllUsers": [
+      {
+        "username": "edu",
+        "posts": [
+          {
+            "title": "Some title"
+          },
+          {
+            "title": "title"
+          }
+        ]
+      },
+      {
+        "username": "luiz",
+        "posts": []
+      },
+      {
+        "username": "lupa",
+        "posts": [
+          {
+            "title": "Nice Title"
+          },
+          {
+            "title": "mvmwdivotu"
+          }
+        ]
+      }
+    ]
+  } 
+}
+```
+
+### getPost: [PostType]
+
+### getUser: [UserType]
+```
+{
+  getAllUsers {
+    uuid
+    username
+    password
+    posts
+  }
+}
+```
+
+Returns data from a single user.
+
+**PARAMS**:<br/>
+**uuid**: _The User ID_
+
+**FIELDS**:<br/>
+_All fields from User<br/>
+The field **posts** has all fields of Post._
+
+Example of usage:
+```
+{
+  getUser(userId: 2) {
+    username
+    posts {
+      title
+    }
+  }
+}
+```
+Example of return:
+```json
+{
+"data": {
+  "getUser": {
+    "username": "edu",
+      "posts": [
+{
+        "title": "Some title"
+        },
+        {
+        "title": "title"
+        }
+      ]
+    }
+  }
+}
+```
+
+## Mutations
+
+### CreatePost
+Creates a new Post.
+
+**PARAMS:**<br/>
+**title**: _The Post title_<br/>
+**body**: _The Post content_<br/>
+**username**: _The username of the user who created the post_
+
+**FIELDS:**<br/>
+**ok**: _True or False. Informs if the request went well_<br/>
+**message**: _A message stating the status of the request_<br/>
+**post**: _The post created. Has all Post fields_
+
+Example of usage:
+```
+mutation {
+  CreatePost (title: "Some Title", body: "Some content", username: "edu") {
+    ok
+    message
+    post {
+      uuid
+    }
+  }
+}
+```
+Example of return:
+```json
+{
+  "data": {
+    "CreatePost": {
+      "ok": true,
+      "message": "Post criado",
+      "post": {
+        "uuid": "10"
+      }
+    }
+  }
+}
+```
+
+### UpdatePost
+Updates an existing Post.
+
+**PARAMS:**<br/>
+**postId**: _The Post identifier. Required_<br/>
+**title**: _The new Post title. Not required_<br/>
+**body**: _The new Post body. Not required_
+
+**FIELDS:**<br/>
+**ok**: _True or False. Informs if the request went well_<br/>
+**message**: _A message stating the status of the request_<br/>
+**post**: _The post updated. Has all Post fields_
+
+Example of usage:
+```
+mutation {
+  UpdatePost (postId: 3, title: "Some new Title", body: "Some new content") {
+    ok
+    message
+    post {
+      uuid
+      title
+      body
+    }
+  }
+}
+```
+Example of return:
+```json
+{
+  "data": {
+    "UpdatePost": {
+      "ok": true,
+      "message": "Post atualizado",
+      "post": {
+        "uuid": "3",
+        "title": "Some new Title",
+        "body": "Some new content"
+      }
+    }
+  }
+}
+```
+
+### DeletePost
+Deletes an existing Post.
+
+**PARAMS:**<br/>
+**postId**: _The Post identifier. Required_<br/>
+
+**FIELDS:**<br/>
+**ok**: _True or False. Informs if the request went well_<br/>
+**message**: _A message stating the status of the request_<br/>
+
+Example of usage:
+```
+mutation {
+  DeletePost (postId: 3) {
+    ok
+    message
+  }
+}
+```
+Example of return:
+```json
+{
+  "data": {
+    "DeletePost": {
+      "ok": true,
+      "message": "Post removido com sucesso."
+    }
+  }
+}
+```
+
+### CreateUser
+Creates a new User.
+
+**PARAMS:**<br/>
+**username**: _The User username_<br/>
+**password**: _The User password_<br/>
+
+**FIELDS:**<br/>
+**ok**: _True or False. Informs if the request went well_<br/>
+**message**: _A message stating the status of the request_<br/>
+**post**: _The Post created. Has all Post fields_
+
+Example of usage:
+```
+mutation {
+  CreatePost (username: "joe", password: "strongpassword") {
+    ok
+    message
+    user {
+      uuid
+      username
+    }
+  }
+}
+```
+Example of return:
+```json
+{
+  "data": {
+    "CreateUser": {
+      "ok": true,
+      "message": "Criado com sucesso",
+      "user": {
+        "uuid": "8",
+        "username": "joe"
+      }
+    }
+  }
+}
+```
+
+### UpdateUser
+Updates an existing User.
+
+**PARAMS:**<br/>
+**postId**: _The User identifier. Required_<br/>
+**username**: _The new User username. Not required_<br/>
+**password**: _The new User password. Not required_
+
+**FIELDS:**<br/>
+**ok**: _True or False. Informs if the request went well_<br/>
+**message**: _A message stating the status of the request_<br/>
+**post**: _The User updated. Has all User fields_
+
+Example of usage:
+```
+mutation {
+  UpdateUser (userId: 3, username: "joh doe", password: "newstrongpassword") {
+    ok
+    message
+    user {
+      uuid
+      username
+      password
+    }
+  }
+}
+```
+Example of return:
+```json
+{
+  "data": {
+    "UpdateUser": {
+      "ok": true,
+      "message": "Usuário atualizado",
+      "user": {
+        "uuid": "3",
+        "username": "joh doe",
+        "password": "newstrongpassword"
+      }
+    }
+  }
+}
+```
+
+### DeleteUser
+Deletes an existing User.
+
+**PARAMS:**<br/>
+**postId**: _The User identifier. Required_<br/>
+
+**FIELDS:**<br/>
+**ok**: _True or False. Informs if the request went well_<br/>
+**message**: _A message stating the status of the request_<br/>
+
+Example of usage:
+```
+mutation {
+  DeleteUser (userId: 3) {
+    ok
+    message
+  }
+}
+```
+Example of return:
+```json
+{
+  "data": {
+    "DeleteUser": {
+      "ok": true,
+      "message": "Usuário removido com sucesso."
+    }
   }
 }
 ```
