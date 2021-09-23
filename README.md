@@ -12,20 +12,20 @@ The library Graphene was used to build it.
 1. [What is the API?](#What-is-the-API?)
 2. [How to run the project](#How-to-run-the-project)
 3. [API Docs](#API-Docs)
-4. [User](#User)
-5. [Post](#Post)
-6. [Queries](#Queries)
-   1. [getAllPosts](#getAllPosts)
-   2. [getAllUsers](#getAllUsers)
-   3. [getPost](#getPost)
-   4. [getUser](#getUser)
-7. [Mutations](#Mutations)
-   1. [CreatePost](#CreatePost)
-   2. [UpdatePost](#UpdatePost)
-   3. [DeletePost](#DeletePost)
-   4. [CreateUser](#CreateUser)
-   5. [UpdateUser](#UpdateUser)
-   6. [DeleteUser](#DeleteUser)
+   1. [User](#User)
+   2. [Post](#Post)
+   3. [Queries](#Queries)
+      1. [getAllPosts](#getAllPosts)
+      2. [getAllUsers](#getAllUsers)
+      3. [getPost](#getPost)
+      4. [getUser](#getUser)
+   4. [Mutations](#Mutations)
+      1. [CreatePost](#CreatePost)
+      2. [UpdatePost](#UpdatePost)
+      3. [DeletePost](#DeletePost)
+      4. [CreateUser](#CreateUser)
+      5. [UpdateUser](#UpdateUser)
+      6. [DeleteUser](#DeleteUser)
 
 
 ## What is the API?
@@ -282,27 +282,47 @@ Example of return:
 ```
 
 ### getPost
+Returns data from a single user.
 
-### getUser
+**PARAMS**:<br/>
+**post_id**: _The Post ID_
+
+**FIELDS**:<br/>
+_All fields from Post_<br/>
+_The field **author** has all User fields._
+
+Example of usage:
 ```
 {
-  getAllUsers {
-    uuid
+  getUser(userId: 2) {
     username
-    password
-    posts
+    posts {
+      title
+    }
+  }
+}
+```
+Example of return:
+```json
+{
+  "data": {
+    "getPost": {
+      "title": "Title",
+      "body": "Some Body"
+    }
   }
 }
 ```
 
+### getUser
 Returns data from a single user.
 
 **PARAMS**:<br/>
-**uuid**: _The User ID_
+**user_id**: _The User ID_
 
 **FIELDS**:<br/>
 _All fields from User<br/>
-The field **posts** has all fields of Post._
+The field **posts** has all Post fields._
 
 Example of usage:
 ```
@@ -322,11 +342,11 @@ Example of return:
   "getUser": {
     "username": "edu",
       "posts": [
-{
-        "title": "Some title"
+        {
+          "title": "Some title"
         },
         {
-        "title": "title"
+          "title": "title"
         }
       ]
     }
